@@ -5,6 +5,7 @@ from requests import Session
 from requests.exceptions import ( HTTPError, MissingSchema, InvalidURL)
 from colorama import init
 from termcolor import colored
+from sh import curl
 
 
 def nc(tagl, t):
@@ -58,6 +59,8 @@ with Session() as ses:
                 arr = soup_t(soupIn)
                 if arr is not None:
                     print(colored(fNum + ' arrives at ' + arr,'green'))
+                    msg = fNum + ' arrives at ' + arr
+                    curl('-d','{"message":"'+msg+'","notify":false,"message_format":"text"}', "-H", "Content-Type: application/json", "https://tulanthoar.hipchat.com/v2/room/2672264/notification?auth_token=gqHibVexRWaqeAcQooOlaDm7kGniOyJLl6fglKBv")
                 print('')
             sleep(300)
         except KeyboardInterrupt:
